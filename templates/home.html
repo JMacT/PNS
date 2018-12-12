@@ -1,0 +1,29 @@
+{% extends "template.html" %}
+<script type="text/javascript" src="static/jquery.js"></script>
+<script type="text/javascript" src="static/js/bootstrap.min.js"></script>
+
+{% block content %}
+  <div class="jumbo">
+    <h2>ESP Part Number Standardization Tool</h2>
+    <br/>
+    <p>Click <a href="/welcome">here</a> to go to the welcome page</p>
+    <p>Here is a table for your enjoyment:</p>
+    <div class="btn-group dropup">
+
+          <!-- <button type="button" class="btn btn-secondary">Action</button> -->
+          <button type="button" class="btn btn-secondary dropdown-toggle dropdown-toggle-split" id="dropdownMenu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            <span class="sr-only">Toggle Dropdown</span>
+            Product Catagory
+          </button>
+
+          <div class="dropdown-menu" aria-labelledby="dropdownMenu">
+            <a class="dropdown-item" href="#">Action</a>
+            <a class="dropdown-item" href="#">Another action</a>
+            <a class="dropdown-item" href="#">Something else here</a>
+            <div class="dropdown-divider"></div>
+            <a class="dropdown-item" href="#">Separated link</a>
+          </div>
+
+    </div>
+  </div>
+{% endblock %}
