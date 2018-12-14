@@ -1,17 +1,17 @@
 import sqlite3
 
-conn = sqlite3.connect('data.db')
+conn = sqlite3.connect('test.db')
 
 c = conn.cursor()
 
 #Create the subcatagory database
-# c.execute('''CREATE TABLE subcatagory
-#              (name text, subtable text)''')
+c.execute('''CREATE TABLE city
+             (id integer, state text, name text)''')
 #
 # # Insert orings into database
-# c.execute("INSERT INTO subcatagory VALUES ('orings', 'as568')")
-# c.execute("INSERT INTO subcatagory VALUES ('mfs', 'dwgnum')")
-# c.execute("INSERT INTO subcatagory VALUES ('oilseals', 'profiles')")
+c.execute("INSERT INTO city VALUES ('id')")
+c.execute("INSERT INTO city VALUES ('state')")
+c.execute("INSERT INTO city VALUES ('name')")
 
 
 #Fetch and print -001 data

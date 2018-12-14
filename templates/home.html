@@ -1,6 +1,4 @@
 {% extends "template.html" %}
-<script type="text/javascript" src="static/js/jquery.js"></script>
-<script type="text/javascript" src="static/js/bootstrap.min.js"></script>
 
 {% block content %}
   <div class="jumbo">
@@ -25,5 +23,14 @@
           </div>
 
     </div>
+  </div>
+  <body>
+    <form method="POST">
+      {{ form.csrf_token }}
+      {{ form.state }}
+      {{ form.city }}
+      <input type="submit">
+    </form>
+  </body>
 
 {% endblock %}
