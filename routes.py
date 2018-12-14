@@ -5,21 +5,27 @@ from flask_wtf import FlaskForm
 from wtforms import SelectField
 
 app = Flask(__name__)
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///test.db'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///data.db'
 app.config['SECRET_KEY'] = 'secret'
 
 db = SQLAlchemy(app)
-
 Bootstrap(app)
 
+class City(db.Model):
+    id = db.Column(db.Integer, primary_key = True)
+    state = db.Column(db.String(2))
+    name = db.Column(db.String(50))
+
 class Form(FlaskForm):
-    product_catagory = SelectField('product_catagory', choices=[('OR','O-rings'), ('MFS', 'Metal Face Seals'), ('OS', 'Oil Seals')])
-    subcatagory = SelectField('subcatagory', choices=[])
+    state = SelectField('state', choices=[('CA','California'),('NV','Nevada')])
+    city = SelectField('city', choices=[])
+
 @app.route('/', methods=['GET', 'POST'])
 def home():
     form = Form()
-    form.subcatagory.choices = [(subcatagory.id, subcatagory.name) for subcatagory in subcatagory.query.filter_by(name = 'orings').all()] #NEED TO USE THE MASTER DB NOT AS568
-    return render_template('home.html')
+    form.city.choices = [(city.id, city.name) for city in City.query.filter_by(state='CA').all()]
+
+    return render_template('home.html', form=Form)
 
 if __name__ == '__main__':
     app.run(debug=True)

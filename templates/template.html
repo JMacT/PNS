@@ -1,4 +1,7 @@
 <!DOCTYPE html>
+<script type="text/javascript" src="static/js/jquery.js"></script>
+<script type="text/javascript" src="static/js/bootstrap.min.js"></script>
+
 <html lang="en" dir="ltr">
   <head>
     <title>Part Number Standardization Tool</title>
@@ -19,22 +22,23 @@
     <div class="navbar-collapse collapse">
         <ul class="nav navbar-nav" style="float: center;">
             <!-- navbar items -->
-            <li><a href="#">First Item</a></li>
-            <li><a href="#">Second Item</a></li>
-            <li><a href="#">Third Item</a></li>
+            <li><a href="#">First Item2345</a></li>
+            <li><a href="#">Second Item2345</a></li>
+            <li><a href="#">Third Item2345</a></li>
             <li class="dropdown">
-                <a class="dropdown-toggle" data-toggle="dropdown" aria-expanded="false" href="#">
-                    derp<span class="mdi mdi-chevron-down"></span>
-                </a>
-                <ul class="dropdown-menu" role="menu">
-                    <li role="presentation"><a href="#">First Item</a></li>
-                    <li role="presentation"><a href="#">Second Item</a></li>
-                    <li role="presentation"><a href="#">Third Item</a></li>
-                </ul>
-            </li>
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">Dropdown <b class="caret"></b></a>
+                    <ul class="dropdown-menu">
+                      <li><a href="#">Action</a></li>
+                      <li><a href="#">Another action</a></li>
+                      <li><a href="#">Something else here</a></li>
+                      <li class="divider"></li>
+                      <li><a href="#">Separated link</a></li>
+                      <li class="divider"></li>
+                      <li><a href="#">One more separated link</a></li>
+                    </ul>
+                  </li>
         </ul>
     </div>
-    <div class="container">
       {% block content %}
       {% endblock %}
     </div>
