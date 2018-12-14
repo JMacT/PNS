@@ -3,27 +3,40 @@
 <script type="text/javascript" src="static/js/bootstrap.min.js"></script>
 
 {% block content %}
+{{super()}}
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+    <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
   <div class="jumbo">
     <h2>ESP Part Number Standardization Tool</h2>
     <br/>
     <p>Click <a href="/welcome">here</a> to go to the welcome page</p>
     <p>Here is a table for your enjoyment:</p>
-    <div class="btn-group dropup">
 
-          <!-- <button type="button" class="btn btn-secondary">Action</button> -->
-          <button type="button" class="btn btn-secondary dropdown-toggle dropdown-toggle-split" id="dropdownMenu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+    <div class="btn-group dropup">
+      <!-- create the dropdown menu -->
+          <button type="button" class="btn btn-lg btn-primary dropdown-toggle dropdown-toggle-split" id="dropdownMenu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
             <span class="sr-only">Toggle Dropdown</span>
             Product Catagory
           </button>
-
+          <!-- dropdown items -->
           <div class="dropdown-menu" aria-labelledby="dropdownMenu">
-            <a class="dropdown-item" href="#">Action</a>
-            <a class="dropdown-item" href="#">Another action</a>
-            <a class="dropdown-item" href="#">Something else here</a>
-            <div class="dropdown-divider"></div>
-            <a class="dropdown-item" href="#">Separated link</a>
+            <li role="presentation"><a href="#">O-rings</a></li>
+            <li role="presentation"><a href="#">Metal Face Seals</a></li>
+            <li role="presentation"><a href="#">Oil Seals</a></li>
           </div>
-
+          <!-- <li class="dropdown">
+              <a class="dropdown-toggle" data-toggle="dropdown" aria-expanded="false" href="#">
+                  derp<span class="mdi mdi-chevron-down"></span>
+              </a>
+              <ul class="dropdown-menu" role="menu">
+                  <li role="presentation"><a href="#">First Item</a></li>
+                  <li role="presentation"><a href="#">Second Item</a></li>
+                  <li role="presentation"><a href="#">Third Item</a></li>
+              </ul>
+          </li> -->
     </div>
+  </div>
+  <div class="">
+    blop
   </div>
 {% endblock %}
