@@ -29,10 +29,26 @@ def home():
 
     # when <form> in html is <input type='submit'> is clicked, flask.request.method == 'POST'
     if request.method == 'POST':
+        #if you hit submit, the website posts to flask.
+        #new variable, City.city is created
+        #City.city
         city = City.query.filter_by(id=form.city.data).first()
-        return '<h1>State: {}, City: {}</h1'.format(form.state.data, city.name)
+        return '<h1>State: {}, City: {}</h1><p><a href="/">Home</a></p>'.format(form.state.data, city.name)
 
     return render_template('home.html', form=form)
+
+@app.route('/city/<state>')
+def city(state):
+    cities = City.query.filter_by(state=state).all()
+    cityArray = []
+
+    for city in cities:
+        cityObj = {}
+        cityObj['id']=city.id
+        cityObj['name'] = city.name
+        cityArray.append(cityObj)
+
+    return jsonify({'cities':cityArray})
 
 if __name__ == '__main__':
     app.run(debug=True)

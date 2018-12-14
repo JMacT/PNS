@@ -6,31 +6,57 @@
     <br/>
     <p>Click <a href="/welcome">here</a> to go to the welcome page</p>
     <p>Here is a table for your enjoyment:</p>
+  </div>
+  <body>
     <div class="btn-group dropup">
 
           <!-- <button type="button" class="btn btn-secondary">Action</button> -->
-          <button type="button" class="btn btn-secondary dropdown-toggle dropdown-toggle-split" id="dropdownMenu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          <button type="button" class="btn btn-secondary dropdown-toggle dropdown-toggle-split" id="dropdownMenu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
             <span class="sr-only">Toggle Dropdown</span>
             Product Catagory
           </button>
 
-          <div class="dropdown-menu" aria-labelledby="dropdownMenu">
-            <a class="dropdown-item" href="#">Action</a>
-            <a class="dropdown-item" href="#">Another action</a>
-            <a class="dropdown-item" href="#">Something else here</a>
-            <div class="dropdown-divider"></div>
-            <a class="dropdown-item" href="#">Separated link</a>
-          </div>
+          <a class="dropdown-item" href="#">Action</a>
+          <div class="dropdown-divider"></div>
+          <a class="dropdown-item" href="#">Another action</a>
+          <div class="dropdown-divider"></div>
+          <a class="dropdown-item" href="#">Something else here</a>
+          <div class="dropdown-divider"></div>
+          <a class="dropdown-item" href="#">Separated link</a>
 
     </div>
-  </div>
-  <body>
-    <form method="POST">
-      {{ form.csrf_token }}
-      {{ form.state }}
-      {{ form.city }}
-      <input type="submit">
-    </form>
+    <div class="">
+      <form method="POST">
+        {{ form.csrf_token }}
+        {{ form.state }}
+        {{ form.city }}
+        <input type="submit">
+      </form>
+    </div>
+    <script type="text/javascript">
+      let state_select = document.getElementById('state');
+      let city_select = document.getElementById('city');
+
+      state_select.onchange = function(){
+        state = state_select.value;
+
+        fetch('/city/' + state).then(function(response) {
+          response.json().then(function(data) {
+            let optionHTML = '';
+
+            for(let city of data.cities){
+              //inject new html with city.id
+              optionHTML+='<option value = "' + city.id + '">' + city.name + '</option>';
+            }
+
+            //update city_select to use these new options instead of the old ones.
+            city_select.innerHTML = optionHTML;
+
+          });
+        });
+      }
+
+    </script>
   </body>
 
 {% endblock %}
