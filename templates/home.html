@@ -28,25 +28,25 @@
     <div class="">
       <form method="POST">
         {{ form.csrf_token }}
-        {{ form.state }}
-        {{ form.city }}
+        {{ form.product_group }}
+        {{ form.subcategory }}
         <input type="submit">
       </form>
     </div>
     <script type="text/javascript">
-      let state_select = document.getElementById('state');
-      let city_select = document.getElementById('city');
+      let state_select = document.getElementById('product_group');
+      let city_select = document.getElementById('subcategory');
 
       state_select.onchange = function(){
-        state = state_select.value;
+        subcategory = state_select.value;
 
-        fetch('/city/' + state).then(function(response) {
+        fetch('/city/' + product_group).then(function(response) {
           response.json().then(function(data) {
             let optionHTML = '';
 
-            for(let city of data.cities){
+            for(let city of data.subcatagories){
               //inject new html with city.id
-              optionHTML+='<option value = "' + city.id + '">' + city.name + '</option>';
+              optionHTML+='<option value = "' + subcategory.id + '">' + subcategory.name + '</option>';
             }
 
             //update city_select to use these new options instead of the old ones.

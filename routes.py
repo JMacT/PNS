@@ -11,44 +11,48 @@ app.config['SECRET_KEY'] = 'secret'
 db = SQLAlchemy(app)
 Bootstrap(app)
 
-class City(db.Model):
-    id = db.Column(db.Integer, primary_key = True)
-    state = db.Column(db.String(2))
-    name = db.Column(db.String(50))
+class productgroup(db.Model):
+    id = db.Column(db.Integer, primary_key = True, unique=True)
+    name = db.Column(db.String(2), unique = False, nullable=False)
+    subcategory = db.Column(db.String(100))
+
+
+    def __repr__(self):
+        return f"productgroup('{self.name}', '{self.subcategory}')"
 
 class Form(FlaskForm):
-    state = SelectField('state', choices=[('CA','California'),('NV','Nevada')])
-    city = SelectField('city', choices=[])
+    product_group = SelectField('name', choices=[('OR','BossSeals'),('OR','AS568'), ('OS','Profile1')])
+    subcategory = SelectField('subcategory', choices=[])
 
 @app.route('/', methods=['GET', 'POST'])
 def home():
     # instantiate the Form.form
     form = Form()
-    #set the Form.form.city.choices to be equal to all those in the db with state='CA'
-    form.city.choices = [(city.id, city.name) for city in City.query.filter_by(state='CA').all()]
+    #default the page to all choices for product group "OR"
+    form.subcategory.choices = [(subcategory.name, subcategory.name) for subcategory in productgroup.query.filter_by(name='OR').all()]
 
     # when <form> in html is <input type='submit'> is clicked, flask.request.method == 'POST'
     if request.method == 'POST':
         #if you hit submit, the website posts to flask.
         #new variable, City.city is created
         #City.city
-        city = City.query.filter_by(id=form.city.data).first()
-        return '<h1>State: {}, City: {}</h1><p><a href="/">Home</a></p>'.format(form.state.data, city.name)
+        chosen_catagory = productgroup.query.filter_by(id=form.subcategory.data).first()
+        return '<h1>subcat: {}, City: {}</h1><p><a href="/">Home</a></p>'.format(form.subcategory.data, chosen_catagory.name)
 
     return render_template('home.html', form=form)
 
-@app.route('/city/<state>')
-def city(state):
-    cities = City.query.filter_by(state=state).all()
-    cityArray = []
+@app.route('/Product_Group/<subcatagories>')
+def city(chosen_catagory):
+    options = productgroup.query.filter_by(subcategory=chosen_catagory).all()
+    subcatagoriesArray = []
 
-    for city in cities:
+    for subcategory in options:
         cityObj = {}
-        cityObj['id']=city.id
-        cityObj['name'] = city.name
-        cityArray.append(cityObj)
+        cityObj['id']=subcategory.id
+        cityObj['name'] = subcategory.name
+        subcatagoriesArray.append(cityObj)
 
-    return jsonify({'cities':cityArray})
+    return jsonify({'cities':subcatagoriesArray})
 
 if __name__ == '__main__':
     app.run(debug=True)
