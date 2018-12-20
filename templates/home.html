@@ -34,29 +34,32 @@
       </form>
     </div>
     <script type="text/javascript">
-      let state_select = document.getElementById('product_group');
-      let city_select = document.getElementById('subcategory');
+      let product_group = document.getElementById('product_group');
+      let subcategory = document.getElementById('subcategory');
 
-      state_select.onchange = function(){
-        subcategory = state_select.value;
+      product_group.onchange = function(){
+        product = product_group.value;
 
-        fetch('/city/' + product_group).then(function(response) {
+        fetch('/subcategory/' + product).then(function(response) {
           response.json().then(function(data) {
             let optionHTML = '';
-
-            for(let city of data.subcatagories){
-              //inject new html with city.id
-              optionHTML+='<option value = "' + subcategory.id + '">' + subcategory.name + '</option>';
+            // console.table(data.subcategories);
+            for(let id of data.subcategories){
+              console.log(id);
+              // Inject new HTML Options for the subcategory selections
+              optionHTML += '<option value="' + id.id + '">' + id.subcategory + '</option>';
+              // subcategory here actually refers to the HTML select#subcategory id tag in the page
+              subcategory.innerHTML = optionHTML;
             }
-
-            //update city_select to use these new options instead of the old ones.
-            city_select.innerHTML = optionHTML;
 
           });
         });
       }
 
     </script>
+   <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+   <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
   </body>
 
 {% endblock %}

@@ -21,7 +21,7 @@ class productgroup(db.Model):
         return f"productgroup('{self.name}', '{self.subcategory}')"
 
 class Form(FlaskForm):
-    product_group = SelectField('name', choices=[('OR','BossSeals'),('OR','AS568'), ('OS','Profile1')])
+    product_group = SelectField('name', choices=[('OR','O-rings'),('OS','Oil Seals')])
     subcategory = SelectField('subcategory', choices=[])
 
 @app.route('/', methods=['GET', 'POST'])
@@ -29,30 +29,29 @@ def home():
     # instantiate the Form.form
     form = Form()
     #default the page to all choices for product group "OR"
-    form.subcategory.choices = [(subcategory.name, subcategory.name) for subcategory in productgroup.query.filter_by(name='OR').all()]
+    form.subcategory.choices = [(subcategory.id, subcategory.subcategory) for subcategory in productgroup.query.filter_by(name='OR').all()]
 
     # when <form> in html is <input type='submit'> is clicked, flask.request.method == 'POST'
     if request.method == 'POST':
         #if you hit submit, the website posts to flask.
-        #new variable, City.city is created
-        #City.city
         chosen_catagory = productgroup.query.filter_by(id=form.subcategory.data).first()
-        return '<h1>subcat: {}, City: {}</h1><p><a href="/">Home</a></p>'.format(form.subcategory.data, chosen_catagory.name)
+        return '<h1>Product Group: {}, Subcategory: {}</h1><p><a href="/">Home</a></p>'.format(form.product_group.data, chosen_catagory.subcategory)
 
     return render_template('home.html', form=form)
 
-@app.route('/Product_Group/<subcatagories>')
-def city(chosen_catagory):
-    options = productgroup.query.filter_by(subcategory=chosen_catagory).all()
+@app.route('/subcategory/<chosen_catagory>')
+def sub_category(chosen_catagory):
+    name = chosen_catagory
+    subcategories = productgroup.query.filter_by(name=name).all()
     subcatagoriesArray = []
 
-    for subcategory in options:
-        cityObj = {}
-        cityObj['id']=subcategory.id
-        cityObj['name'] = subcategory.name
-        subcatagoriesArray.append(cityObj)
+    for subcategory in subcategories:
+        sub_catObj = {}
+        sub_catObj['id']=subcategory.id
+        sub_catObj['subcategory'] = subcategory.subcategory
+        subcatagoriesArray.append(sub_catObj)
 
-    return jsonify({'cities':subcatagoriesArray})
+    return jsonify({'subcategories':subcatagoriesArray})
 
 if __name__ == '__main__':
     app.run(debug=True)
