@@ -30,6 +30,7 @@
         {{ form.csrf_token }}
         {{ form.product_group }}
         {{ form.subcategory }}
+        {{ form.optiontest }}
         <input type="submit">
       </form>
     </div>
@@ -40,12 +41,11 @@
       product_group.onchange = function(){
         product = product_group.value;
 
-        fetch('/subcategory/' + product).then(function(response) {
+        fetch('/product_group/' + product).then(function(response) {
           response.json().then(function(data) {
             let optionHTML = '';
             // console.table(data.subcategories);
             for(let id of data.subcategories){
-              console.log(id);
               // Inject new HTML Options for the subcategory selections
               optionHTML += '<option value="' + id.id + '">' + id.subcategory + '</option>';
               // subcategory here actually refers to the HTML select#subcategory id tag in the page
@@ -55,8 +55,35 @@
           });
         });
       }
-
     </script>
+
+    <script type="text/javascript">
+      let subcat = document.getElementById('subcategory');
+      let optiontest = document.getElementById('optiontest');
+
+      subcat.onchange = function(){
+        subcat_name = subcategory.value;
+
+        fetch('/subcat/' + subcat_name).then(
+          function(response) {
+            response.json().then(
+            function(data) {
+              let optionHTML = '';
+              // console.table(data.subcategories);
+              for(let id of data.options){
+                console.log(id);
+                // Inject new HTML Options for the subcategory selections
+                optionHTML += '<option value="' + id.id + '">' + id.option + '</option>';
+                // subcategory here actually refers to the HTML select#subcategory id tag in the page
+                optiontest.innerHTML = optionHTML;
+              }
+
+          });
+        });
+      }
+
+  </script>
+
    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>

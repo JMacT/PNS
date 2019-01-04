@@ -1,28 +1,33 @@
 from flask import Flask, render_template, request, jsonify
-from flask_bootstrap import Bootstrap
 from flask_sqlalchemy import SQLAlchemy
 from flask_wtf import FlaskForm
 from wtforms import SelectField
+from wtforms_sqlalchemy.fields import QuerySelectField
 
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///test.db'
 app.config['SECRET_KEY'] = 'secret'
 
 db = SQLAlchemy(app)
-Bootstrap(app)
 
 class productgroup(db.Model):
     id = db.Column(db.Integer, primary_key = True, unique=True)
     name = db.Column(db.String(2), unique = False, nullable=False)
     subcategory = db.Column(db.String(100))
 
-
     def __repr__(self):
-        return f"productgroup('{self.name}', '{self.subcategory}')"
+        return "productgroup('{self.name}', '{self.subcategory}')"
+
+class option(db.Model):
+    id = db.Column(db.Integer, primary_key = True, unique=True)
+    name = db.Column(db.String(2), unique = False, nullable=False)
+    option = db.Column(db.String(100))
+
 
 class Form(FlaskForm):
     product_group = SelectField('name', choices=[('OR','O-rings'),('OS','Oil Seals')])
     subcategory = SelectField('subcategory', choices=[])
+    optiontest = SelectField('Option1', choices=[])
 
 @app.route('/', methods=['GET', 'POST'])
 def home():
@@ -39,7 +44,7 @@ def home():
 
     return render_template('home.html', form=form)
 
-@app.route('/subcategory/<chosen_catagory>')
+@app.route('/product_group/<chosen_catagory>')
 def sub_category(chosen_catagory):
     name = chosen_catagory
     subcategories = productgroup.query.filter_by(name=name).all()
@@ -52,6 +57,21 @@ def sub_category(chosen_catagory):
         subcatagoriesArray.append(sub_catObj)
 
     return jsonify({'subcategories':subcatagoriesArray})
+
+@app.route('/subcat/<chosen_catagory>')
+def optiontest(chosen_category):
+    name = chosen_catagory
+    options = optiontesttable.query.filter_by(subcategory=name).all()
+    optionsArray = []
+
+    for option in options:
+        optObj = {}
+        optObj['id']=subcategory.id
+        optObj['option'] = subcategory.option
+        optionsArray.append(optObj)
+        print(optionArray)
+
+    return jsonify({'optiontests':optionsArray})
 
 if __name__ == '__main__':
     app.run(debug=True)
